@@ -138,7 +138,7 @@ export default function Home() {
 
   const handleDownload = () => {
     const link = document.createElement('a')
-    link.href = '/resume.pdf'
+    link.href = '/resume/resume.pdf'
     link.download = 'Gabriel_Udoh_Resume.pdf'
     document.body.appendChild(link)
     link.click()
