@@ -1,15 +1,18 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from 'framer-motion'
-import './App.css'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
+import Image from 'next/image'
+import CustomCursor from '@/components/CustomCursor'
 
 // Floating Particles Component
 function FloatingParticles() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {[...Array(20)].map((_, i) => (
+      {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-white/20 rounded-full"
+          className="absolute w-1 h-1 bg-white/30 rounded-full"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -32,12 +35,12 @@ function FloatingParticles() {
   )
 }
 
-// Animated Gradient Orbs
+// Animated Gradient Orbs - Black and White
 function GradientOrbs() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       <motion.div
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-transparent rounded-full blur-3xl"
+        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-white/[0.03] to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -50,7 +53,7 @@ function GradientOrbs() {
         }}
       />
       <motion.div
-        className="absolute top-1/3 -left-40 w-[400px] h-[400px] bg-gradient-to-tr from-cyan-500/10 via-teal-500/5 to-transparent rounded-full blur-3xl"
+        className="absolute top-1/3 -left-40 w-[400px] h-[400px] bg-gradient-to-tr from-white/[0.02] to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, -30, 0],
           y: [0, 50, 0],
@@ -64,7 +67,7 @@ function GradientOrbs() {
         }}
       />
       <motion.div
-        className="absolute -bottom-40 right-1/3 w-[600px] h-[600px] bg-gradient-to-tl from-indigo-500/10 via-violet-500/5 to-transparent rounded-full blur-3xl"
+        className="absolute -bottom-40 right-1/3 w-[600px] h-[600px] bg-gradient-to-tl from-white/[0.02] to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, 40, 0],
           y: [0, -40, 0],
@@ -81,7 +84,7 @@ function GradientOrbs() {
   )
 }
 
-// Animated Section Component with better animations
+// Animated Section Component
 function AnimatedSection({ children, className = '', delay = 0, id }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
@@ -97,20 +100,6 @@ function AnimatedSection({ children, className = '', delay = 0, id }) {
     >
       {children}
     </motion.section>
-  )
-}
-
-// Text Reveal Animation
-function TextReveal({ children, className = '', delay = 0 }) {
-  return (
-    <motion.span
-      className={`inline-block ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.span>
   )
 }
 
@@ -145,17 +134,7 @@ function AnimatedCounter({ value, suffix = '' }) {
   return <span ref={ref}>{count}{suffix}</span>
 }
 
-function App() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+export default function Home() {
 
   const handleDownload = () => {
     const link = document.createElement('a')
@@ -179,48 +158,45 @@ function App() {
   // Experience data
   const experience = [
     {
-      role: 'Senior Software Developer',
-      company: 'Tech Innovation Labs',
-      period: '2022 - Present',
-      description: 'Leading a team of developers in building scalable enterprise applications. Architecting microservices solutions and implementing CI/CD pipelines.',
-      highlights: ['Team Leadership', 'System Architecture', 'Performance Optimization']
+      role: 'Full Software Developer',
+      company: 'AVS Studio | Remote',
+      period: 'Feb 2025 – Present',
+      description: 'Built the On-The-Go Mobile App using React Native & Node.js, enabling real-time services and boosting user adoption across Android/iOS. Designed and deployed multiple interactive dashboards for analytics and reporting. Integrated secure backend services with Express.js, PHP, and Laravel.',
+      highlights: ['React Native', 'Node.js', 'Next.js', 'TypeScript', 'Laravel', 'Framer UI']
     },
     {
-      role: 'Full Stack Developer',
-      company: 'Digital Solutions Inc.',
-      period: '2020 - 2022',
-      description: 'Developed and maintained multiple client-facing web applications. Collaborated with design teams to implement pixel-perfect responsive interfaces.',
-      highlights: ['React', 'Node.js', 'MongoDB', 'AWS']
+      role: 'Web Developer & Instructor',
+      company: 'JavaPlus Innovation | Lagos',
+      period: 'Jul 2023 – Jan 2025',
+      description: 'Developed and maintained web platforms using React, Next.js, and Node.js, improving scalability and responsiveness. Designed a student learning portal with real-time assessments. Conducted coding workshops and mentorship programs improving trainee job placement rates.',
+      highlights: ['React', 'Next.js', 'Node.js', 'LaTeX & TikZ', 'Performance Optimization']
     },
     {
-      role: 'Frontend Developer',
-      company: 'Creative Agency Pro',
-      period: '2018 - 2020',
-      description: 'Created stunning user interfaces for various clients ranging from startups to Fortune 500 companies. Focused on accessibility and performance.',
-      highlights: ['UI Development', 'Animation', 'A11y']
+      role: 'Software Developer',
+      company: 'Fast Plus Innovation | Lagos',
+      period: 'Oct 2022 – Apr 2023',
+      description: 'Delivered a Finance SaaS application with Laravel & React, enabling secure transactions and analytics dashboards. Built a Digital Library System with PHP, Laravel, and MySQL. Migrated and optimized MySQL queries, reducing response time by 40%.',
+      highlights: ['Laravel', 'React', 'PHP', 'MySQL', 'API Development']
+    },
+    {
+      role: 'Software Developer (Internship)',
+      company: 'First Lincoln Technology | Lagos',
+      period: '2020 – 2022',
+      description: 'Contributed to the development of e-commerce platforms using Laravel, WordPress, and React. Developed dynamic front-end UIs with React, JavaScript, and Bootstrap. Designed custom WordPress themes and plugins tailored to client branding needs.',
+      highlights: ['Laravel', 'WordPress', 'React', 'Bootstrap', 'E-commerce']
     },
   ]
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Animated Background */}
       <GradientOrbs />
       <FloatingParticles />
-
-      {/* Cursor Glow Effect */}
-      <motion.div
-        className="fixed w-[500px] h-[500px] pointer-events-none z-0 opacity-30"
-        style={{
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%)',
-          left: mousePosition.x - 250,
-          top: mousePosition.y - 250,
-        }}
-        transition={{ type: "spring", damping: 30, stiffness: 200 }}
-      />
+      <CustomCursor />
 
       {/* Navigation */}
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-[#050505]/70 border-b border-white/5"
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-black/80 border-b border-white/10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -230,8 +206,8 @@ function App() {
             className="text-xl font-bold tracking-tight"
             whileHover={{ scale: 1.05 }}
           >
-            <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Gabriel</span>
-            <span className="text-gray-600"> Udoh</span>
+            <span className="text-white">Gabriel</span>
+            <span className="text-gray-500"> Udoh</span>
           </motion.div>
           <div className="hidden md:flex items-center gap-10">
             {['About', 'Skills', 'Experience', 'Resume'].map((item, i) => (
@@ -244,13 +220,13 @@ function App() {
                 transition={{ delay: 0.1 * i }}
               >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
               </motion.a>
             ))}
           </div>
           <motion.button
             onClick={handleDownload}
-            className="px-6 py-2.5 bg-gradient-to-r from-white to-gray-200 text-black text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-white/20 transition-all duration-300"
+            className="relative inline-flex items-center gap-3 px-6 py-2 bg-white text-black text-sm font-semibold rounded-full border border-transparent overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,255,255,0.15)] hover:pr-8 group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -266,7 +242,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-32">
             <div className="max-w-5xl">
               <motion.div
-                className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-white/10 to-white/5 border border-white/10 rounded-full mb-10"
+                className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full mb-10"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
@@ -276,8 +252,8 @@ function App() {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
                 </motion.span>
                 <span className="text-sm text-gray-300 font-medium">Available for new opportunities</span>
               </motion.div>
@@ -293,13 +269,47 @@ function App() {
 
               <motion.h1
                 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 0.5
+                    }
+                  }
+                }}
               >
-                <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Gabriel</span>
-                <br />
-                <span className="bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 bg-clip-text text-transparent">Udoh</span>
+                <span className="block text-white">
+                  {Array.from("Gabriel").map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block"
+                      variants={{
+                        hidden: { opacity: 0, y: 50, rotate: 10 },
+                        visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 12, stiffness: 100 } }
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </span>
+                <span className="block text-gray-500">
+                  {Array.from("Udoh").map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block"
+                      variants={{
+                        hidden: { opacity: 0, y: 50, rotate: 10 },
+                        visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", damping: 12, stiffness: 100 } }
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </span>
               </motion.h1>
 
               <motion.div
@@ -332,11 +342,11 @@ function App() {
               >
                 <motion.button
                   onClick={handleDownload}
-                  className="group flex items-center gap-3 px-8 py-4 bg-white text-black font-semibold rounded-2xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300"
+                  className="relative inline-flex items-center gap-3 px-8 py-3 bg-white text-black font-semibold rounded-full border border-transparent overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,255,255,0.15)] hover:pr-10 group"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                   Download Resume
@@ -344,7 +354,7 @@ function App() {
 
                 <motion.a
                   href="#resume"
-                  className="group flex items-center gap-3 px-8 py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                  className="relative inline-flex items-center gap-3 px-8 py-3 bg-transparent text-white font-semibold rounded-full border border-white/20 transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/5 hover:border-white hover:-translate-y-0.5"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -373,7 +383,7 @@ function App() {
             <div className="grid lg:grid-cols-2 gap-20 items-center">
               <div>
                 <motion.span
-                  className="inline-block text-sm text-purple-400 uppercase tracking-widest mb-6 font-semibold"
+                  className="inline-block text-sm text-gray-400 uppercase tracking-widest mb-6 font-semibold"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -382,7 +392,7 @@ function App() {
                 </motion.span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
                   Crafting Digital
-                  <span className="block bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Experiences</span>
+                  <span className="block text-gray-400">Experiences</span>
                 </h2>
                 <div className="space-y-6 text-gray-400 text-lg leading-relaxed">
                   <p>
@@ -421,7 +431,7 @@ function App() {
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.1 }}
                     >
-                      <p className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-2">
+                      <p className="text-4xl md:text-5xl font-bold text-white mb-2">
                         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                       </p>
                       <p className="text-sm text-gray-500">{stat.label}</p>
@@ -438,20 +448,22 @@ function App() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="relative aspect-square">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 rounded-3xl"></div>
-                  <div className="absolute inset-4 bg-gradient-to-br from-[#111] to-[#0a0a0a] rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 rounded-3xl"></div>
+                  <div className="absolute inset-4 bg-gradient-to-br from-neutral-900 to-black rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
                     <motion.div
                       className="text-center p-8"
                       animate={{ y: [0, -10, 0] }}
                       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <div className="w-40 h-40 mx-auto mb-8 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-full flex items-center justify-center text-7xl border border-white/10">
-                        <motion.span
-                          animate={{ rotate: [0, 10, -10, 0] }}
-                          transition={{ duration: 4, repeat: Infinity }}
-                        >
-                          👨‍💻
-                        </motion.span>
+                      <div className="w-40 h-40 mx-auto mb-8 rounded-full overflow-hidden border-2 border-white/20 relative">
+                        <Image
+                          src="/profile.jpg"
+                          alt="Gabriel Udoh"
+                          fill
+                          className="object-cover object-top"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority
+                        />
                       </div>
                       <p className="text-2xl font-bold mb-2">Gabriel Udoh</p>
                       <p className="text-gray-500">Software Developer</p>
@@ -461,14 +473,14 @@ function App() {
 
                 {/* Floating elements */}
                 <motion.div
-                  className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"
+                  className="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-white/10"
                   animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
                   ⚡
                 </motion.div>
                 <motion.div
-                  className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-cyan-500/30"
+                  className="absolute -bottom-4 -left-4 w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center text-xl border border-white/20"
                   animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
                   transition={{ duration: 4, repeat: Infinity, delay: 1 }}
                 >
@@ -480,11 +492,11 @@ function App() {
         </AnimatedSection>
 
         {/* Skills Section */}
-        <AnimatedSection id="skills" className="py-32 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
+        <AnimatedSection id="skills" className="py-32 bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-20">
               <motion.span
-                className="inline-block text-sm text-cyan-400 uppercase tracking-widest mb-6 font-semibold"
+                className="inline-block text-sm text-gray-400 uppercase tracking-widest mb-6 font-semibold"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -492,7 +504,7 @@ function App() {
                 My Expertise
               </motion.span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                Skills & <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Technologies</span>
+                Skills & <span className="text-gray-400">Technologies</span>
               </h2>
             </div>
 
@@ -500,7 +512,7 @@ function App() {
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
-                  className="group p-8 bg-gradient-to-br from-white/5 to-transparent border border-white/5 rounded-3xl hover:border-white/20 transition-all duration-500"
+                  className="group p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -518,14 +530,11 @@ function App() {
                   </div>
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                     <motion.div
-                      className="h-full bg-gradient-to-r from-purple-500 via-cyan-500 to-purple-500 rounded-full bg-[length:200%_100%]"
+                      className="h-full bg-gradient-to-r from-white to-gray-400 rounded-full"
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.2, delay: 0.3 + index * 0.1, ease: "easeOut" }}
-                      style={{
-                        animation: 'shimmer 2s linear infinite',
-                      }}
                     />
                   </div>
                 </motion.div>
@@ -539,7 +548,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-20">
               <motion.span
-                className="inline-block text-sm text-purple-400 uppercase tracking-widest mb-6 font-semibold"
+                className="inline-block text-sm text-gray-400 uppercase tracking-widest mb-6 font-semibold"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -547,7 +556,7 @@ function App() {
                 Career Journey
               </motion.span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                Work <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Experience</span>
+                Work <span className="text-gray-400">Experience</span>
               </h2>
             </div>
 
@@ -555,40 +564,40 @@ function App() {
               {experience.map((exp, index) => (
                 <motion.div
                   key={index}
-                  className="relative pl-12 pb-16 last:pb-0"
+                  className="relative pl-10 sm:pl-12 pb-12 sm:pb-16 last:pb-0"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2 }}
                 >
                   {/* Timeline line */}
-                  <div className="absolute left-[18px] top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 via-white/20 to-transparent"></div>
+                  <div className="absolute left-[14px] sm:left-[18px] top-0 bottom-0 w-px bg-gradient-to-b from-white via-white/20 to-transparent"></div>
 
                   {/* Timeline dot */}
                   <motion.div
-                    className="absolute left-0 top-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30"
+                    className="absolute left-0 top-0 w-8 h-8 sm:w-10 sm:h-10 bg-white text-black rounded-xl flex items-center justify-center shadow-lg shadow-white/10"
                     whileHover={{ scale: 1.2, rotate: 10 }}
                   >
-                    <span className="text-white font-bold text-sm">{index + 1}</span>
+                    <span className="font-bold text-xs sm:text-sm">{index + 1}</span>
                   </motion.div>
 
                   <motion.div
-                    className="bg-gradient-to-br from-white/5 to-transparent border border-white/5 rounded-3xl p-8 ml-4 hover:border-white/20 transition-all duration-500"
+                    className="bg-white/[0.02] border border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-8 ml-2 sm:ml-4 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
                     whileHover={{ x: 10 }}
                   >
-                    <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                    <div className="flex flex-col sm:flex-row sm:flex-wrap items-start justify-between gap-2 sm:gap-4 mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-white mb-1">{exp.role}</h3>
-                        <p className="text-purple-400 font-medium">{exp.company}</p>
+                        <h3 className="text-lg sm:text-2xl font-bold text-white mb-1">{exp.role}</h3>
+                        <p className="text-sm sm:text-base text-gray-400 font-medium">{exp.company}</p>
                       </div>
-                      <span className="px-4 py-2 bg-white/5 text-gray-400 text-sm font-medium rounded-full border border-white/10">
+                      <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/5 text-gray-400 text-xs sm:text-sm font-medium rounded-full border border-white/10">
                         {exp.period}
                       </span>
                     </div>
-                    <p className="text-gray-400 leading-relaxed mb-6">{exp.description}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-4 sm:mb-6">{exp.description}</p>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {exp.highlights.map((highlight, i) => (
-                        <span key={i} className="px-3 py-1 bg-gradient-to-r from-purple-500/10 to-pink-500/10 text-purple-300 text-sm rounded-full border border-purple-500/20">
+                        <span key={i} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-white/5 text-gray-300 text-xs sm:text-sm rounded-full border border-white/10">
                           {highlight}
                         </span>
                       ))}
@@ -600,12 +609,12 @@ function App() {
           </div>
         </AnimatedSection>
 
-        {/* Resume PDF Section */}
-        <AnimatedSection id="resume" className="py-32 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
+        {/* Resume CTA Section */}
+        <AnimatedSection id="resume" className="py-32 bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <motion.span
-                className="inline-block text-sm text-cyan-400 uppercase tracking-widest mb-6 font-semibold"
+                className="inline-block text-sm text-gray-400 uppercase tracking-widest mb-6 font-semibold"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -613,116 +622,24 @@ function App() {
                 Full Document
               </motion.span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                My <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Resume</span>
+                My <span className="text-gray-400">Resume</span>
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                View my complete professional resume below or download it for your records.
+              <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-12">
+                Ready to see the full picture? Download my resume to get a detailed overview of my experience, skills, and qualifications.
               </p>
-            </div>
 
-            <div className="max-w-5xl mx-auto">
               <motion.div
-                className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl overflow-hidden"
-                whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* PDF Viewer Header */}
-                <div className="flex items-center justify-between px-8 py-5 bg-[#0a0a0a] border-b border-white/5">
-                  <div className="flex items-center gap-5">
-                    <div className="flex gap-2">
-                      <motion.div
-                        className="w-3.5 h-3.5 rounded-full bg-[#ff5f57] cursor-pointer"
-                        whileHover={{ scale: 1.3 }}
-                      />
-                      <motion.div
-                        className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] cursor-pointer"
-                        whileHover={{ scale: 1.3 }}
-                      />
-                      <motion.div
-                        className="w-3.5 h-3.5 rounded-full bg-[#28ca42] cursor-pointer"
-                        whileHover={{ scale: 1.3 }}
-                      />
-                    </div>
-                    <span className="text-sm text-gray-400 font-medium hidden sm:inline">Gabriel_Udoh_Resume.pdf</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <motion.button
-                      onClick={() => window.open('/resume.pdf', '_blank')}
-                      className="p-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      title="Open in new tab"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </motion.button>
-                    <motion.button
-                      onClick={handleDownload}
-                      className="p-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      title="Download"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                    </motion.button>
-                  </div>
-                </div>
-
-                {/* PDF Container */}
-                <div className="relative bg-[#111]" style={{ minHeight: '75vh' }}>
-                  <AnimatePresence>
-                    {isLoading && (
-                      <motion.div
-                        className="absolute inset-0 flex items-center justify-center bg-[#111] z-10"
-                        initial={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <div className="flex flex-col items-center gap-6">
-                          <div className="relative">
-                            <motion.div
-                              className="w-16 h-16 border-4 border-white/10 rounded-full"
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                            />
-                            <motion.div
-                              className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-purple-500 rounded-full"
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                            />
-                          </div>
-                          <span className="text-gray-400 font-medium">Loading resume...</span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <iframe
-                    src="/resume.pdf"
-                    className="w-full h-full"
-                    style={{ minHeight: '75vh' }}
-                    title="Gabriel Udoh Resume"
-                    onLoad={() => setIsLoading(false)}
-                  />
-                </div>
-              </motion.div>
-
-              {/* Download CTA */}
-              <motion.div
-                className="mt-12 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
                 <motion.button
                   onClick={handleDownload}
-                  className="group inline-flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300"
-                  whileHover={{ scale: 1.02, y: -3 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="relative inline-flex items-center gap-3 px-10 py-4 bg-white text-black text-lg font-semibold rounded-full border border-transparent overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,255,255,0.15)] hover:pr-12 group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 transition-transform duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                   Download Full Resume
@@ -737,7 +654,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="max-w-4xl mx-auto text-center">
               <motion.span
-                className="inline-block text-sm text-purple-400 uppercase tracking-widest mb-6 font-semibold"
+                className="inline-block text-sm text-gray-400 uppercase tracking-widest mb-6 font-semibold"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -746,7 +663,7 @@ function App() {
               </motion.span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
                 Let's Build Something
-                <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">Amazing Together</span>
+                <span className="block text-gray-400">Amazing Together</span>
               </h2>
               <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto">
                 I'm always excited to collaborate on innovative projects and bring creative ideas to life.
@@ -756,18 +673,18 @@ function App() {
               <div className="flex flex-wrap justify-center gap-5 mb-16">
                 <motion.a
                   href="mailto:gabriel@example.com"
-                  className="flex items-center gap-3 px-8 py-4 bg-white text-black font-semibold rounded-2xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300"
+                  className="relative inline-flex items-center gap-3 px-8 py-3 bg-white text-black font-semibold rounded-full border border-transparent overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(255,255,255,0.15)] hover:pr-10 group"
                   whileHover={{ scale: 1.02, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 transition-transform duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   Send Email
                 </motion.a>
                 <motion.button
                   onClick={handleDownload}
-                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-2xl hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300"
+                  className="relative inline-flex items-center gap-3 px-8 py-3 bg-transparent text-white font-semibold rounded-full border border-white/20 transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/5 hover:border-white hover:-translate-y-0.5"
                   whileHover={{ scale: 1.02, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -789,7 +706,7 @@ function App() {
                   <motion.a
                     key={social.name}
                     href={social.href}
-                    className="p-5 text-gray-400 hover:text-white bg-white/5 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-cyan-500/10 rounded-2xl border border-white/5 hover:border-white/20 transition-all duration-300"
+                    className="p-5 text-gray-400 hover:text-white bg-white/5 hover:bg-white rounded-2xl border border-white/10 hover:border-white transition-all duration-300 hover:text-black"
                     whileHover={{ scale: 1.1, y: -5 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -802,7 +719,7 @@ function App() {
         </AnimatedSection>
 
         {/* Footer */}
-        <footer className="py-10 border-t border-white/5">
+        <footer className="py-10 border-t border-white/10">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <p className="text-gray-500 text-sm">
@@ -815,13 +732,13 @@ function App() {
               >
                 Built with
                 <motion.span
-                  className="text-red-500"
+                  className="text-white"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
-                  ❤️
+                  ♥
                 </motion.span>
-                React & Tailwind CSS
+                Next.js & Tailwind CSS
               </motion.p>
             </div>
           </div>
@@ -830,5 +747,3 @@ function App() {
     </div>
   )
 }
-
-export default App
