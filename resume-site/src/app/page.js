@@ -8,6 +8,11 @@ import Hero from '@/components/Hero'
 
 // Floating Particles Component
 function FloatingParticles() {
+  // Use index-based pseudo-random values for SSR compatibility
+  const getIndexBasedRandom = (index, multiplier = 100) => {
+    return ((Math.sin(index * 12.9898) * 43758.5453) % 1) * multiplier
+  }
+
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {[...Array(15)].map((_, i) => (
@@ -15,19 +20,19 @@ function FloatingParticles() {
           key={i}
           className="absolute w-1 h-1 bg-white/30 rounded-full"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: `${getIndexBasedRandom(i)}%`,
+            top: `${getIndexBasedRandom(i + 15)}%`,
           }}
           animate={{
             y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
+            x: [0, getIndexBasedRandom(i + 30, 20) - 10, 0],
             opacity: [0.2, 0.5, 0.2],
             scale: [1, 1.5, 1],
           }}
           transition={{
-            duration: 4 + Math.random() * 4,
+            duration: 4 + getIndexBasedRandom(i + 45, 4),
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: getIndexBasedRandom(i + 60, 2),
             ease: "easeInOut",
           }}
         />
@@ -41,7 +46,7 @@ function GradientOrbs() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       <motion.div
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-white/[0.03] to-transparent rounded-full blur-3xl"
+          className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-linear-to-br from-white/3 to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -54,7 +59,7 @@ function GradientOrbs() {
         }}
       />
       <motion.div
-        className="absolute top-1/3 -left-40 w-[400px] h-[400px] bg-gradient-to-tr from-white/[0.02] to-transparent rounded-full blur-3xl"
+        className="absolute top-1/3 -left-40 w-[400px] h-[400px] bg-linear-to-tr from-white/2 to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, -30, 0],
           y: [0, 50, 0],
@@ -68,7 +73,7 @@ function GradientOrbs() {
         }}
       />
       <motion.div
-        className="absolute -bottom-40 right-1/3 w-[600px] h-[600px] bg-gradient-to-tl from-white/[0.02] to-transparent rounded-full blur-3xl"
+        className="absolute -bottom-40 right-1/3 w-[600px] h-[600px] bg-linear-to-tl from-white/2 to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, 40, 0],
           y: [0, -40, 0],
@@ -109,9 +114,14 @@ function AnimatedCounter({ value, suffix = '' }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
   const [count, setCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    if (isInView) {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isInView && mounted) {
       const num = parseInt(value)
       const duration = 2000
       const steps = 60
@@ -130,9 +140,9 @@ function AnimatedCounter({ value, suffix = '' }) {
 
       return () => clearInterval(timer)
     }
-  }, [isInView, value])
+  }, [isInView, value, mounted])
 
-  return <span ref={ref}>{count}{suffix}</span>
+  return <span ref={ref} suppressHydrationWarning>{mounted ? count : 0}{suffix}</span>
 }
 
 export default function Home() {
@@ -154,6 +164,18 @@ export default function Home() {
     { name: 'Python / Django', level: 75, icon: '🐍' },
     { name: 'UI/UX Design', level: 85, icon: '🎨' },
     { name: 'Database / SQL', level: 78, icon: '🗄️' },
+    { name: 'React Native', level: 85, icon: '📱' },
+    { name: 'Tailwind CSS / Styling', level: 90, icon: '🎯' },
+    { name: 'REST APIs / GraphQL', level: 82, icon: '🔌' },
+    { name: 'PHP / Laravel', level: 80, icon: '🐘' },
+    { name: 'MySQL / MongoDB', level: 82, icon: '💾' },
+    { name: 'Framer Motion', level: 88, icon: '✨' },
+    { name: 'Git / Version Control', level: 90, icon: '🔗' },
+    { name: 'HTML / CSS', level: 92, icon: '🏗️' },
+    { name: 'WordPress / CMS', level: 78, icon: '📝' },
+    { name: 'Testing / Jest', level: 75, icon: '✅' },
+    { name: 'AWS / Cloud Services', level: 70, icon: '☁️' },
+    { name: 'Docker / DevOps', level: 72, icon: '🐳' },
   ]
 
   // Experience data
@@ -312,8 +334,8 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="relative aspect-square">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 rounded-3xl"></div>
-                  <div className="absolute inset-4 bg-gradient-to-br from-neutral-900 to-black rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-linear-to-br from-white/5 via-transparent to-white/5 rounded-3xl"></div>
+                  <div className="absolute inset-4 bg-linear-to-br from-neutral-900 to-black rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
                     <motion.div
                       className="text-center p-8"
                       animate={{ y: [0, -10, 0] }}
@@ -356,7 +378,7 @@ export default function Home() {
         </AnimatedSection>
 
         {/* Skills Section */}
-        <AnimatedSection id="skills" className="py-32 bg-white/[0.02]">
+        <AnimatedSection id="skills" className="py-32 bg-white/2">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-20">
               <motion.span
@@ -376,7 +398,7 @@ export default function Home() {
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
-                  className="group p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
+                  className="group p-8 bg-white/2 border border-white/5 rounded-3xl hover:border-white/20 hover:bg-white/4 transition-all duration-500"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -394,7 +416,7 @@ export default function Home() {
                   </div>
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                     <motion.div
-                      className="h-full bg-gradient-to-r from-white to-gray-400 rounded-full"
+                      className="h-full bg-linear-to-r from-white to-gray-400 rounded-full"
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       viewport={{ once: true }}
@@ -435,7 +457,7 @@ export default function Home() {
                   transition={{ delay: index * 0.2 }}
                 >
                   {/* Timeline line */}
-                  <div className="absolute left-[14px] sm:left-[18px] top-0 bottom-0 w-px bg-gradient-to-b from-white via-white/20 to-transparent"></div>
+                  <div className="absolute left-3.5 sm:left-[18px] top-0 bottom-0 w-px bg-linear-to-b from-white via-white/20 to-transparent"></div>
 
                   {/* Timeline dot */}
                   <motion.div
@@ -446,7 +468,7 @@ export default function Home() {
                   </motion.div>
 
                   <motion.div
-                    className="bg-white/[0.02] border border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-8 ml-2 sm:ml-4 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
+                    className="bg-white/2 border border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-8 ml-2 sm:ml-4 hover:border-white/20 hover:bg-white/4 transition-all duration-500"
                     whileHover={{ x: 10 }}
                   >
                     <div className="flex flex-col sm:flex-row sm:flex-wrap items-start justify-between gap-2 sm:gap-4 mb-4">
@@ -474,7 +496,7 @@ export default function Home() {
         </AnimatedSection>
 
         {/* Resume CTA Section */}
-        <AnimatedSection id="resume" className="py-32 bg-white/[0.02]">
+        <AnimatedSection id="resume" className="py-32 bg-white/2">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <motion.span
@@ -570,7 +592,7 @@ export default function Home() {
                   <motion.a
                     key={social.name}
                     href={social.href}
-                    className="p-5 text-gray-400 hover:text-white bg-white/5 hover:bg-white rounded-2xl border border-white/10 hover:border-white transition-all duration-300 hover:text-black"
+                    className="p-5 text-gray-400 bg-white/5 hover:bg-white rounded-2xl border border-white/10 hover:border-white transition-all duration-300"
                     whileHover={{ scale: 1.1, y: -5 }}
                     whileTap={{ scale: 0.95 }}
                   >
