@@ -90,7 +90,7 @@ export default function Hero({ handleDownload }) {
                             Download Resume
                         </motion.button>
                         <motion.a
-                            href="#contact"
+                            href="mailto:younganiel@gmail.com"
                             className="px-8 py-4 bg-white/5 text-white font-semibold rounded-full border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

@@ -1,21 +1,26 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import Image from 'next/image'
 import CustomCursor from '@/components/CustomCursor'
 import Hero from '@/components/Hero'
 
-// Floating Particles Component
-function FloatingParticles() {
+// Dynamically import heavy animated backgrounds
+const GradientOrbs = dynamic(() => Promise.resolve(GradientOrbsImpl), { ssr: false })
+const FloatingParticles = dynamic(() => Promise.resolve(FloatingParticlesImpl), { ssr: false })
+
+// Floating Particles Component (optimized, fewer particles, no SSR random)
+function FloatingParticlesImpl() {
   // Use index-based pseudo-random values for SSR compatibility
   const getIndexBasedRandom = (index, multiplier = 100) => {
     return ((Math.sin(index * 12.9898) * 43758.5453) % 1) * multiplier
   }
-
+  // Reduce to 6 particles for performance
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {[...Array(15)].map((_, i) => (
+      {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 bg-white/30 rounded-full"
@@ -41,12 +46,12 @@ function FloatingParticles() {
   )
 }
 
-// Animated Gradient Orbs - Black and White
-function GradientOrbs() {
+// Animated Gradient Orbs - Black and White (dynamic import)
+function GradientOrbsImpl() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       <motion.div
-          className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-linear-to-br from-white/3 to-transparent rounded-full blur-3xl"
+        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-linear-to-br from-white/3 to-transparent rounded-full blur-3xl"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -212,9 +217,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Animated Background */}
-      <GradientOrbs />
-      <FloatingParticles />
+      {/* Animated Background (dynamically loaded for speed) */}
+      <Suspense fallback={null}>
+        <GradientOrbs />
+        <FloatingParticles />
+      </Suspense>
       <CustomCursor />
 
       {/* Navigation */}
